@@ -31,8 +31,13 @@
             "picker_type": "button"
           }
         },
+        "7c125a29-8f11-4ad7-85a6-c888bdf85618": {
+          "type": "customization",
+          "settings": {}
+        },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
@@ -94,6 +99,7 @@
         "caption",
         "price",
         "variant_picker",
+        "7c125a29-8f11-4ad7-85a6-c888bdf85618",
         "quantity_selector",
         "buy_buttons",
         "description",

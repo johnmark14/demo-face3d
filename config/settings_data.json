@@ -182,6 +182,14 @@
           "color_scheme": "background-1"
         }
       }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "2310698031238674758": {
+        "type": "shopify:\/\/apps\/local-pickup-delivery-date\/blocks\/app-embed-block\/3fd2f2b6-9126-45e7-a20a-a58ae4f5c2d5",
+        "disabled": false,
+        "settings": {}
+      }
     }
   },
   "presets": {
