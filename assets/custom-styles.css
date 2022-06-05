@@ -1,3 +1,110 @@
 .product-form__buttons.customization button {
   background-color: #ed434c;
 }
+
+.three-popup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.three-popup.--is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.three-popup__wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.three-popup__container {
+  width: 630px;
+  height: 430px;
+  position: relative;
+}
+
+.three-popup__container .close {
+  position: absolute;
+  top: -8px;
+  right: -50px;
+  color: white;
+  text-decoration: none;
+  font-size: 46px;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  line-height: 0;
+}
+
+.three-popup__inner--content {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+.three-popup__inner--content .content-main {
+  width: 100%;
+  height: 80%;
+  position: relative;
+}
+
+.three-popup__inner--content .content-main canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.three-popup__inner--content .content-main .model-options {
+  position: absolute;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  padding-left: 10px;
+  height: 100%;
+  margin: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.three-popup__inner--content .content-main .model-options .option {
+  width: 40px;
+  height: 40px;
+  list-style: none;
+  position: relative;
+}
+
+.three-popup__inner--content .content-main .model-options .option.--is-active::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  height: 100%;
+  width: 2px;
+  background-color: red;
+}
+
+.three-popup__inner--content .content-footer {
+  height: 20%;
+}

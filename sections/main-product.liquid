@@ -287,12 +287,12 @@
             </div>
           {%-when 'customization'-%}
               <div class="product-form__buttons customization">
-                <button type="submit" name="customize" class="button button--full-width">
+                <button type="button" name="customize" class="button button--full-width" id="customize">
                   <span>
                     Customize
                   </span>
                 </button>
-              </div>
+              </div> 
           {%- when 'popup' -%}
               <modal-opener class="product-popup-modal__opener no-js-hidden quick-add-hidden" data-modal="#PopupModal-{{ block.id }}" {{ block.shopify_attributes }}>
                 <button id="ProductPopup-{{ block.id }}" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">{{ block.settings.text | default: block.settings.page.title }}</button>
