@@ -77,7 +77,8 @@ integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiq
 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     const BACKGROUND_COLOR = 0xf1f1f1;
-    const MODEL_PATH = "https://cdn.shopify.com/s/files/1/0566/0613/0259/files/chair.glb?v=1654844356";
+    const MODEL_PATH_OLD = "https://cdn.shopify.com/s/files/1/0566/0613/0259/files/chair.glb?v=1654844356";
+    const MODEL_PATH = "https://cdn.shopify.com/s/files/1/0566/0613/0259/files/socks.glb?v=1654846079";
     const width = 630;
     const height = 430;
     const scene = new THREE.Scene();
@@ -133,12 +134,12 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
             theModel.traverse((o)=> {
                 if(o.isMesh) {
-                    o.castShadow = true;
-                    o.receiveShadow = true;
+                    o.castShadow = false;
+                    o.receiveShadow = false;
                 }
             });
             // set the models initial scale
-            theModel.scale.set(2.5,2.5,2.5);
+            theModel.scale.set(6,6,6);
             theModel.rotation.y = Math.PI;
 
             // Offset the y position a bit
@@ -220,8 +221,10 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         function setMaterial(parent, type, mtl) {
             parent.traverse((o)=> {
-                if(o.isMesh && o.nameID != null) {
-                    if(o.nameID == type) {
+                
+                if(o.isMesh && o.name != null) {
+                    if(o.name == type) {
+                        console.log(o);
                         o.material = mtl;                    
                     }
                 }
@@ -236,7 +239,7 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
                 color: parseInt('0x'+ $this.parent().data('color')),
                 shininess: 10
             });
-            setMaterial(theModel, activeModelPart, new_mtl);
+            setMaterial(theModel, "polySurface1", new_mtl);
         });
 
         $('#customize').on('click', function(event) {
