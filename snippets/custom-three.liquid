@@ -9,6 +9,17 @@
                 <div class="content-main">
                     <canvas id="canvas"></canvas>
                     <ul class="model-options">
+                        <li class="option --is-active" data-option="modelsPattern2D_22575">
+                            <a href="#!">
+                                A
+                            </a>
+                        </li>
+                        <li class="option" data-option="B" data-part-1-1="polySurface1" data-part-1-2="polySurface7" data-part-2-1="polySurface17" data-part-2-2="polySurface23">
+                            <a href="#!">
+                                B
+                            </a>
+                        </li>
+                        {%comment%}
                         <li class="option --is-active" data-option="legs">
                             <a href="#!">
                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/legs.svg" alt="legs">
@@ -34,6 +45,7 @@
                                 <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/back.svg" alt="legs">
                             </a> 
                         </li> 
+                        {%endcomment%}
                     </ul>
                 </div>
                 <div class="content-footer">
@@ -43,6 +55,8 @@
                         <li data-color="153944" data-type="color" style="background-color: #153944;"><a href="153944"></a></li>
                         <li data-color="27548D" data-type="color" style="background-color: #27548D;"><a href="27548D"></a></li>
                         <li data-color="438AAC" data-type="color" style="background-color: #438AAC;"><a href="438AAC"></a></li>
+                        <li data-color="5b5b5b" data-type="color" style="background-color: #5b5b5b;"><a href="5b5b5b"></a></li>
+                        <li data-pattern="https://cdn.shopify.com/s/files/1/0566/0613/0259/files/sample_pattern.jpg?v=1655278962" data-type="color" style="background-image: url('https://cdn.shopify.com/s/files/1/0566/0613/0259/files/face_test.png?v=1655278962'); background-repeat: no-repeat; background-size: contain;"><a href="5b5b5b"></a></li>
                     </ul>
                 </div>
             </div>
@@ -83,7 +97,8 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     const height = 430;
     const scene = new THREE.Scene();
     var theModel;
-    var activeModelPart = 'legs';
+    var activeModelPart = 'modelsPattern2D_22575';
+    var activeElement;
 
     const init = function() {
 
@@ -223,8 +238,8 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
             parent.traverse((o)=> {
                 
                 if(o.isMesh && o.name != null) {
+                    console.log(o);
                     if(o.name == type) {
-                        console.log(o);
                         o.material = mtl;                    
                     }
                 }
@@ -234,12 +249,31 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         $('.color-options').on('click', 'li>a', function(e) {
             e.preventDefault();
             $this = $(this);
-            
-            let new_mtl = new THREE.MeshPhongMaterial({
-                color: parseInt('0x'+ $this.parent().data('color')),
-                shininess: 10
-            });
-            setMaterial(theModel, "polySurface1", new_mtl);
+            var new_mtl;
+            if($this.parent().data('pattern') != null) {
+                let txt = new THREE.TextureLoader().load($this.parent().data('pattern'));
+                txt.repeat.set(1,1,1);
+                txt.wrapS = THREE.RepeatWrapping;
+                txt.wrapT = THREE.RepeatWrapping;
+                new_mtl = new THREE.MeshPhongMaterial( {
+                    map: txt,
+                    shininess: 10
+                }); 
+            } else {
+                new_mtl = new THREE.MeshPhongMaterial({
+                    color: parseInt('0x'+ $this.parent().data('color')),
+                    shininess: 10
+                });
+            }
+            if(activeModelPart != 'B' ) {
+                setMaterial(theModel, activeModelPart, new_mtl);
+            } else {
+                $.each(activeElement, function(index, value) {
+                    $.each(value, function(i, v) {
+                        setMaterial(theModel, v, new_mtl);
+                    });
+                });
+            }
         });
 
         $('#customize').on('click', function(event) {
@@ -279,6 +313,17 @@ crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
             $this.parent().addClass('--is-active');
             activeModelPart = $this.parent().data('option');
+            if(activeModelPart == 'B') {
+                activeElement = [{
+                    "part1": $this.parent().data('part-1-1'),
+                    "part2": $this.parent().data('part-1-2')
+                },{
+                    "part1": $this.parent().data('part-2-1'),
+                    "part2": $this.parent().data('part-2-2')
+                }]
+            }
+
+            console.log(activeElement);
         });
     }
  

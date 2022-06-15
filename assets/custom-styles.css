@@ -94,6 +94,7 @@
   height: 40px;
   list-style: none;
   position: relative;
+  text-align: center;
 }
 
 .three-popup__inner--content .content-main .model-options .option.--is-active::after {
@@ -103,6 +104,14 @@
   height: 100%;
   width: 2px;
   background-color: red;
+}
+
+.three-popup__inner--content .content-main .model-options .option a {
+  text-decoration: none;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 0;
 }
 
 .three-popup__inner--content .content-footer {
