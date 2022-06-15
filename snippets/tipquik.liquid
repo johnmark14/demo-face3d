@@ -543,6 +543,10 @@
       </div>
 
       <script>
+        // Active Button
+        var btnSubmit;
+        var runTipQuik = true;
+
         // Polyfill for endsWith - start
         if (!String.prototype.endsWith) {
           String.prototype.endsWith = function(search, this_len) {
@@ -736,14 +740,20 @@
               if (btn.getAttribute('data-shop-pay')) {
                 document.querySelector('[data-testid="ShopifyPay-button"]').click();
               } else {
-                window.location.href = '/checkout';
+                // window.location.href = '/checkout';
+                console.log('showing checkout!!')
+                runTipQuik = false;
+                btnSubmit.click();
               }
             }).catch(function (error) {
               console.error('Error updating cart:', error);
               if (btn.getAttribute('data-shop-pay')) {
                 document.querySelector('[data-testid="ShopifyPay-button"]').click();
               } else {
-                window.location.href = '/checkout';
+                // window.location.href = '/checkout';
+                console.log('showing checkout!!')
+                runTipQuik = false;
+                btnSubmit.click();
               }
             });
           };
@@ -760,7 +770,7 @@
         document.addEventListener('submit', function (event) {
           if (event.submitter != null) {
             if (event.submitter.name == 'checkout') {
-              event.preventDefault();
+              if(runTipQuik) event.preventDefault();
             }
           }
         });
@@ -770,14 +780,20 @@
 
         if (checkoutButton) {
           checkoutButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            onCartSubmit(event);
+            if(runTipQuik) {
+              event.preventDefault();
+              btnSubmit = this;
+              onCartSubmit(event);
+            }
           });
         }
 
         document.on('click', '[name="checkout"]', function(event) {
-          event.preventDefault();
-          onCartSubmit(event);
+          if(runTipQuik) {
+              event.preventDefault();
+              btnSubmit = this;
+              onCartSubmit(event);
+            }
         });
 
         // Set up shop pay button click event to show modal pop-up after it loads
