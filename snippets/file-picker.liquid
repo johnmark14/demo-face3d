@@ -1,0 +1,43 @@
+<div class="content-background">
+    <div class="content-inner__picker">
+        <div class="inner-heading">
+            <span>Choose Photos</span>
+        </div>
+        <div class="inner-file">
+            <div class="file file-local">
+                <label for="file-picker">
+                    Choose from your album
+                    <svg viewBox="0 0 30 30" fill="#000" style="width: 30px; height: 30px;"><path d="M6,19.8257794 L12.0523039,14.6380903 L14.0613665,16.647153 L20.0613665,11.647153 L24,15.5857864 L24,7 C24,6.44771525 23.5522847,6 23,6 L7,6 C6.44771525,6 6,6.44771525 6,7 L6,19.8257794 L6,19.8257794 Z M6,22.4599349 L6,23 C6,23.5522847 6.44771525,24 7,24 L23,24 C23.5522847,24 24,23.5522847 24,23 L24,18.4142136 L19.9386335,14.352847 L13.9386335,19.352847 L11.9476961,17.3619097 L6,22.4599349 Z M7,4 L23,4 C24.6568542,4 26,5.34314575 26,7 L26,23 C26,24.6568542 24.6568542,26 23,26 L7,26 C5.34314575,26 4,24.6568542 4,23 L4,7 C4,5.34314575 5.34314575,4 7,4 Z M10.5,12 C9.67157288,12 9,11.3284271 9,10.5 C9,9.67157288 9.67157288,9 10.5,9 C11.3284271,9 12,9.67157288 12,10.5 C12,11.3284271 11.3284271,12 10.5,12 Z" id="path-1"></path></svg>
+                </label>
+                <input id="file-picker" type="file" accept="image/*">
+            </div>
+            <div class="file file-cloud">
+                <a href="#!">
+                    <ul class="icons">
+                        <li><i class="fa-brands fa-facebook"></i></li>
+                        <li><i class="fa-brands fa-instagram"></i></li>
+                        <li><i class="fa-brands fa-google-drive"></i></li>
+                    </ul>
+                    <span class="label">Choose from Online Services</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
+<script>
+    // Functions
+
+
+    // Events
+    $('.content-inner__picker').on('click', '.file-cloud a', function() {
+        const apiKey = "ACpngWIAjTgWufcEs7A8pz";
+        const client = filestack.init(apiKey)
+        const options = {
+            fromSources: ["instagram","facebook","googledrive"],
+            accept: ["image/*"],
+        };
+        client.picker(options).open();
+    });
+</script>
