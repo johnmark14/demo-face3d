@@ -347,6 +347,13 @@
                                 name="{{ option.name }}"
                                 value="{{ value | escape }}"
                                 form="{{ product_form_id }}"
+                                {%if option.name == "Color" %}
+                                  {%for variant in product.variants%}
+                                    {%if variant.title == value %}
+                                      data-pattern="{{variant.metafields.custom.color_pattern | img_url: 'master'}}"
+                                    {%endif%}
+                                  {%endfor%}
+                                {%endif%}
                                 {% if option.selected_value == value %}checked{% endif %}
                           >
                           <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">

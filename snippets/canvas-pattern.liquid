@@ -1,0 +1,53 @@
+<div id="canvas-pattern" class="three-popup__inner--content">
+    <div class="content-pattern">
+        <canvas>ss</canvas>
+    </div>
+</div>
+
+<script>
+    // window functions
+    window.loadPattern = function(img) {
+        console.log(img);
+    }
+
+    // Functions
+    const buildBackground = function(bg) {
+        $canvas = $('#canvas-pattern canvas');
+        const ctx = $canvas.get(0).getContext('2d');
+
+        const img = new Image();
+        img.onload = function() {
+            console.log(img.height)
+
+            $canvas.attr({'width': img.width, 'height': img.height});
+
+            //draw background image
+            ctx.drawImage(img, 0, 0, img.width, img.height);
+        }
+
+        img.src = bg;
+    }
+
+    const getActiveBackground = function() {
+        let pattern = '';
+        $('variant-radios fieldset').children('input').each(function() {
+            if($(this).is(':checked')) pattern = $(this).data('pattern');
+        });
+        return pattern;
+    }
+
+    const initPattern = function() {
+        const bg = getActiveBackground();
+        buildBackground(bg);
+        console.log(bg);
+    }
+    // Events
+    $('variant-radios').on('change', 'fieldset input', function() {
+        let bg = getActiveBackground();
+        buildBackground(bg);
+    });
+
+    $(document).ready(function() {
+        initPattern();
+    });
+</script>
