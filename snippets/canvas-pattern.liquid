@@ -1,6 +1,6 @@
 <div id="canvas-pattern" class="three-popup__inner--content">
     <div class="content-pattern">
-        <canvas>ss</canvas>
+        <canvas></canvas>
     </div>
 </div>
 
@@ -8,6 +8,19 @@
     // window functions
     window.loadPattern = function(img) {
         console.log(img);
+        $canvas = $('#canvas-pattern canvas');
+        const ctx = $canvas.get(0).getContext('2d');
+        const imgPattern = new Image();
+
+        imgPattern.onload = function() {
+            ctx.drawImage(imgPattern, 10, 10, 260, 260);
+            ctx.drawImage(imgPattern, imgPattern.width - 200, 300, 260, 260);
+            ctx.drawImage(imgPattern, 10, 600, 240, 240);
+            ctx.drawImage(imgPattern, imgPattern.width - 200, 1000, 260, 260);
+            ctx.drawImage(imgPattern, 10, 1400, 260, 260);
+        }
+
+        imgPattern.src = img
     }
 
     // Functions
@@ -39,7 +52,7 @@
     const initPattern = function() {
         const bg = getActiveBackground();
         buildBackground(bg);
-        console.log(bg);
+        // console.log(bg);
     }
     // Events
     $('variant-radios').on('change', 'fieldset input', function() {
