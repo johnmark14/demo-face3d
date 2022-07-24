@@ -7,20 +7,50 @@
 <script>
     // window functions
     window.loadPattern = function(img) {
-        console.log(img);
+        // console.log(img);
+
+        setupPattern(img);
+        
+    }
+
+    const setupPattern = async function(img) {
         $canvas = $('#canvas-pattern canvas');
         const ctx = $canvas.get(0).getContext('2d');
         const imgPattern = new Image();
 
         imgPattern.onload = function() {
+            console.log(imgPattern.width);
             ctx.drawImage(imgPattern, 10, 10, 260, 260);
-            ctx.drawImage(imgPattern, imgPattern.width - 200, 300, 260, 260);
+            ctx.drawImage(imgPattern, window.backgroundWidth - 260, 300, 260, 260);
             ctx.drawImage(imgPattern, 10, 600, 240, 240);
-            ctx.drawImage(imgPattern, imgPattern.width - 200, 1000, 260, 260);
+            ctx.drawImage(imgPattern, window.backgroundWidth - 260, 1000, 260, 260);
             ctx.drawImage(imgPattern, 10, 1400, 260, 260);
         }
+        let image64 = await imageCutout(img);
+        
+        if(image64.code == 0) {
+            imgPattern.src = 'data:image/png;base64,'+image64.data.imageBase64;
+        } else {
+            alert('error on api');
+        }
+    }
 
-        imgPattern.src = img
+    const imageCutout = function(img) {
+        let fd = new FormData();
+        var files = $(img)[0].files
+        if(files.length > 0) {
+            fd.append('file', files[0]);
+        }
+        return $.ajax({
+            url:  'https://www.cutout.pro/api/v1/matting2?mattingType=3&crop=true',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            headers: {
+                'APIKEY': '87d4e0b99e5941a0abddbb19aacf42ed'
+            }
+        })
     }
 
     // Functions
@@ -33,6 +63,7 @@
             console.log(img.height)
 
             $canvas.attr({'width': img.width, 'height': img.height});
+            window.backgroundWidth = img.width;
 
             //draw background image
             ctx.drawImage(img, 0, 0, img.width, img.height);

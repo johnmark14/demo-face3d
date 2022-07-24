@@ -329,16 +329,16 @@
             $this = $(this);
             let input = this;
             $patternImage = null;
-            if(input.files && input.files[0]) {
-                let reader = new FileReader();
+            // if(input.files && input.files[0]) {
+            //     let reader = new FileReader();
 
-                reader.onload = function(e) {
-                    window.loadPattern(e.target.result);
+            //     reader.onload = function(e) {
+                    window.loadPattern($this);
 
-                    $('.three-popup__container .close').click();
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
+            //         $('.three-popup__container .close').click();
+            //     }
+            //     reader.readAsDataURL(input.files[0]);
+            // }
 
 
             $this.closest('.three-popup__inner--content').addClass('is-hide');
