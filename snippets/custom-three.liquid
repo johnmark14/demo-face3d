@@ -5,7 +5,7 @@
         <!-- content container -relative -->
         <div class="three-popup__container">
             <a href="#!" class="close">+</a>
-            <div id="canvas-container" class="three-popup__inner--content is-hide">
+            <div id="canvas-container" class="three-popup__inner--content">
                 <div class="content-main">
                     <canvas id="canvas"></canvas>
                     <ul class="model-options">
@@ -341,7 +341,8 @@
             // }
 
 
-            $this.closest('.three-popup__inner--content').addClass('is-hide');
+            $this.closest('.content-inner__picker').addClass('is-hide');
+            $('.content-loader').removeClass('is-hide');
         });
     }
  

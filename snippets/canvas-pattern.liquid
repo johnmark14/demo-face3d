@@ -1,4 +1,4 @@
-<div id="canvas-pattern" class="three-popup__inner--content">
+<div id="canvas-pattern">
     <div class="content-pattern">
         <canvas></canvas>
     </div>
@@ -30,8 +30,13 @@
         
         if(image64.code == 0) {
             imgPattern.src = 'data:image/png;base64,'+image64.data.imageBase64;
+            $('.three-popup__inner--content').removeClass('is-hide');
+            $('.three-popup__inner--content:last-child').addClass('is-hide');
+
         } else {
             alert('error on api');
+            $('.content-loader').addClass('is-hide');
+            $('.content-inner__picker').removeClass('is-hide');
         }
     }
 
