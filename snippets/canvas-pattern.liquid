@@ -4,6 +4,8 @@
     </div>
 </div>
 
+<h1>The image should output here</h1>
+<img id="theimage" src="" alt="">
 <script>
     // window functions
     window.loadPattern = function(img) {
@@ -25,7 +27,11 @@
             ctx.drawImage(imgPattern, 10, 600, 240, 240);
             ctx.drawImage(imgPattern, window.backgroundWidth - 260, 1000, 260, 260);
             ctx.drawImage(imgPattern, 10, 1400, 260, 260);
+
+            $('#theimage').attr('src',$canvas.get(0).toDataURL("image/jpg"));
         }
+        img.crossOrigin = 'Anonymous';
+        img.origin = 'anonymous';
         let image64 = await imageCutout(img);
         
         if(image64.code == 0) {
@@ -53,7 +59,8 @@
             contentType: false,
             processData: false,
             headers: {
-                'APIKEY': '87d4e0b99e5941a0abddbb19aacf42ed'
+                'APIKEY': '87d4e0b99e5941a0abddbb19aacf42ed',
+                'Access-Control-Allow-Origin': '*'
             }
         })
     }
@@ -64,6 +71,8 @@
         const ctx = $canvas.get(0).getContext('2d');
 
         const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.origin = 'anonymous';
         img.onload = function() {
             console.log(img.height)
 
