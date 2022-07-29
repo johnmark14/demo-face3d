@@ -29,6 +29,7 @@
             ctx.drawImage(imgPattern, 10, 1400, 260, 260);
 
             $('#theimage').attr('src',$canvas.get(0).toDataURL("image/jpg"));
+            window.loadToThree($canvas.get(0).toDataURL("image/jpg"));
         }
         img.crossOrigin = 'Anonymous';
         img.origin = 'anonymous';

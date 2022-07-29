@@ -245,6 +245,32 @@
             })
         }
 
+        window.loadToThree = function(pattern) {
+            var new_mtl;
+            let txt = new THREE.TextureLoader().load(pattern);
+            txt.repeat.set(1,1,1);
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            new_mtl = new THREE.MeshPhongMaterial( {
+                map: txt,
+                shininess: 10
+            }); 
+
+            activeElement = [{
+                "part1": "polySurface1",
+                "part2": "polySurface7"
+            },{
+                "part1": "polySurface17",
+                "part2": "polySurface23"
+            }]
+
+            $.each(activeElement, function(index, value) {
+                $.each(value, function(i, v) {
+                    setMaterial(theModel, v, new_mtl);
+                });
+            });
+        }
+
         $('.color-options').on('click', 'li>a', function(e) {
             e.preventDefault();
             $this = $(this);
