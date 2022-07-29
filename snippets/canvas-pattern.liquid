@@ -30,16 +30,20 @@
 
             $('#theimage').attr('src',$canvas.get(0).toDataURL("image/jpg"));
             window.loadToThree($canvas.get(0).toDataURL("image/jpg"));
+            
+            $('.three-popup__inner--content').removeClass('is-hide');
+            $('.three-popup__inner--content:last-child').addClass('is-hide');
+            ctx.rotate(180);
+            console.log('set degrees: ', Math.PI / 2);
         }
-        img.crossOrigin = 'Anonymous';
-        img.origin = 'anonymous';
+
+        imgPattern.crossOrigin = 'Anonymous';
+        imgPattern.origin = 'anonymous';
         let image64 = await imageCutout(img);
         
         if(image64.code == 0) {
             imgPattern.src = 'data:image/png;base64,'+image64.data.imageBase64;
-            $('.three-popup__inner--content').removeClass('is-hide');
-            $('.three-popup__inner--content:last-child').addClass('is-hide');
-
+            $('.three-options > li').css('background-image', 'url(data:image/png;base64,'+image64.data.imageBase64+')');
         } else {
             alert('error on api');
             $('.content-loader').addClass('is-hide');

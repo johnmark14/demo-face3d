@@ -8,56 +8,11 @@
             <div id="canvas-container" class="three-popup__inner--content">
                 <div class="content-main">
                     <canvas id="canvas"></canvas>
-                    <ul class="model-options">
-                        <li class="option --is-active" data-option="modelsPattern2D_22575">
-                            <a href="#!">
-                                A
-                            </a>
-                        </li>
-                        <li class="option" data-option="B" data-part-1-1="polySurface1" data-part-1-2="polySurface7" data-part-2-1="polySurface17" data-part-2-2="polySurface23">
-                            <a href="#!">
-                                B
-                            </a>
-                        </li>
-                        {%comment%}
-                        <li class="option --is-active" data-option="legs">
-                            <a href="#!">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/legs.svg" alt="legs">
-                            </a>
-                        </li>
-                        <li class="option" data-option="cushions">
-                            <a href="#!">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/cushions.svg" alt="legs">
-                            </a>
-                        </li>
-                        <li class="option" data-option="base">
-                            <a href="#!">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/base.svg" alt="legs">
-                            </a>
-                        </li>
-                        <li class="option" data-option="supports">
-                            <a href="#!">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/supports.svg" alt="legs">
-                            </a>
-                        </li>
-                        <li class="option" data-option="back">
-                            <a href="#!">
-                                <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1376484/back.svg" alt="legs">
-                            </a> 
-                        </li> 
-                        {%endcomment%}
-                    </ul>
                 </div>
                 <div class="content-footer">
-                    <ul class="color-options">
-                        <li data-color="66533C" data-type="color" style="background-color: #66533C;"><a href="66533C"></a></li>
-                        <li data-color="173A2F" data-type="color" style="background-color: #173A2F;"><a href="173A2F"></a></li>
-                        <li data-color="153944" data-type="color" style="background-color: #153944;"><a href="153944"></a></li>
-                        <li data-color="27548D" data-type="color" style="background-color: #27548D;"><a href="27548D"></a></li>
-                        <li data-color="438AAC" data-type="color" style="background-color: #438AAC;"><a href="438AAC"></a></li>
-                        <li data-color="5b5b5b" data-type="color" style="background-color: #5b5b5b;"><a href="5b5b5b"></a></li>
-                        <li data-pattern="https://cdn.shopify.com/s/files/1/0566/0613/0259/files/sample_pattern.jpg?v=1655278962" data-type="color" style="background-image: url('https://cdn.shopify.com/s/files/1/0566/0613/0259/files/face_test.png?v=1655278962'); background-repeat: no-repeat; background-size: contain;"><a href="5b5b5b"></a></li>
-                    </ul>
+                    <ul class="three-options">
+                        <li style="background-image: url('https://cdn.shopify.com/s/files/1/0566/0613/0259/files/face_test.png?v=1655278962'); background-repeat: no-repeat; background-size: contain;"><a href="5b5b5b"></a></li>
+                    </ul> 
                 </div>
             </div>
             <div class="three-popup__inner--content">
@@ -67,16 +22,20 @@
     </div>
 </div>
 {%style%}
-    .content-footer .color-options {
+    .content-footer .three-options {
         display: flex;
         justify-content: center;
+        padding: 0;
     }
-    .content-footer .color-options li {
+    .content-footer .three-options li {
         display: inline-block;
-        width: 40px;
-        height: 40px;
+        width: 60px;
+        height: 60px;
+        background-position: center center;
+        border: 1px solid;
+        border-radius: 2px;
     }
-    .content-footer .color-options li > a:empty {
+    .content-footer .three-options li > a:empty {
         display: inline-block;
         width: 100%;
         height: 100%;
@@ -154,7 +113,7 @@
             });
             // set the models initial scale
             theModel.scale.set(6,6,6);
-            theModel.rotation.y = Math.PI;
+            // theModel.rotation.y = Math.PI/4;
 
             // Offset the y position a bit
             theModel.position.y = -1;
@@ -245,10 +204,13 @@
             })
         }
 
+        // function to draw pattern to 3d
         window.loadToThree = function(pattern) {
             var new_mtl;
             let txt = new THREE.TextureLoader().load(pattern);
             txt.repeat.set(1,1,1);
+            txt.rotation = Math.PI;
+            txt.center = new THREE.Vector2(0.5, 0.5);
             txt.wrapS = THREE.RepeatWrapping;
             txt.wrapT = THREE.RepeatWrapping;
             new_mtl = new THREE.MeshPhongMaterial( {
@@ -271,35 +233,36 @@
             });
         }
 
-        $('.color-options').on('click', 'li>a', function(e) {
-            e.preventDefault();
-            $this = $(this);
-            var new_mtl;
-            if($this.parent().data('pattern') != null) {
-                let txt = new THREE.TextureLoader().load($this.parent().data('pattern'));
-                txt.repeat.set(1,1,1);
-                txt.wrapS = THREE.RepeatWrapping;
-                txt.wrapT = THREE.RepeatWrapping;
-                new_mtl = new THREE.MeshPhongMaterial( {
-                    map: txt,
-                    shininess: 10
-                }); 
-            } else {
-                new_mtl = new THREE.MeshPhongMaterial({
-                    color: parseInt('0x'+ $this.parent().data('color')),
-                    shininess: 10
-                });
-            }
-            if(activeModelPart != 'B' ) {
-                setMaterial(theModel, activeModelPart, new_mtl);
-            } else {
-                $.each(activeElement, function(index, value) {
-                    $.each(value, function(i, v) {
-                        setMaterial(theModel, v, new_mtl);
-                    });
-                });
-            }
-        });
+        // Functionality used for testing
+        // $('.color-options').on('click', 'li>a', function(e) {
+        //     e.preventDefault();
+        //     $this = $(this);
+        //     var new_mtl;
+        //     if($this.parent().data('pattern') != null) {
+        //         let txt = new THREE.TextureLoader().load($this.parent().data('pattern'));
+        //         txt.repeat.set(1,1,1);
+        //         txt.wrapS = THREE.RepeatWrapping;
+        //         txt.wrapT = THREE.RepeatWrapping;
+        //         new_mtl = new THREE.MeshPhongMaterial( {
+        //             map: txt,
+        //             shininess: 10
+        //         }); 
+        //     } else {
+        //         new_mtl = new THREE.MeshPhongMaterial({
+        //             color: parseInt('0x'+ $this.parent().data('color')),
+        //             shininess: 10
+        //         });
+        //     }
+        //     if(activeModelPart != 'B' ) {
+        //         setMaterial(theModel, activeModelPart, new_mtl);
+        //     } else {
+        //         $.each(activeElement, function(index, value) {
+        //             $.each(value, function(i, v) {
+        //                 setMaterial(theModel, v, new_mtl);
+        //             });
+        //         });
+        //     }
+        // });
 
         $('#customize').on('click', function(event) {
             event.preventDefault();
@@ -323,33 +286,34 @@
             });
         });
 
-        $('.model-options').on('click', '.option > a', function(event) {
-            event.preventDefault();
-            $this = $(this);
+        // Functionality used for testing
+        // $('.model-options').on('click', '.option > a', function(event) {
+        //     event.preventDefault();
+        //     $this = $(this);
 
-            // remove active indicator
-            $this.closest('.model-options').children().each(function() {
-                $li = $(this);
+        //     // remove active indicator
+        //     $this.closest('.model-options').children().each(function() {
+        //         $li = $(this);
 
-                if($li.hasClass('--is-active')) {
-                    $li.removeClass('--is-active');
-                }
-            });
+        //         if($li.hasClass('--is-active')) {
+        //             $li.removeClass('--is-active');
+        //         }
+        //     });
 
-            $this.parent().addClass('--is-active');
-            activeModelPart = $this.parent().data('option');
-            if(activeModelPart == 'B') {
-                activeElement = [{
-                    "part1": $this.parent().data('part-1-1'),
-                    "part2": $this.parent().data('part-1-2')
-                },{
-                    "part1": $this.parent().data('part-2-1'),
-                    "part2": $this.parent().data('part-2-2')
-                }]
-            }
+        //     $this.parent().addClass('--is-active');
+        //     activeModelPart = $this.parent().data('option');
+        //     if(activeModelPart == 'B') {
+        //         activeElement = [{
+        //             "part1": $this.parent().data('part-1-1'),
+        //             "part2": $this.parent().data('part-1-2')
+        //         },{
+        //             "part1": $this.parent().data('part-2-1'),
+        //             "part2": $this.parent().data('part-2-2')
+        //         }]
+        //     }
 
-            console.log(activeElement);
-        });
+        //     console.log(activeElement);
+        // });
 
         $('.three-popup__inner--content').on('change', 'input:file', function(event) {
             $this = $(this);
